@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, Alert, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Alert,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { CalendarService } from "../services/CalendarService";
 import { useNavigation } from "@react-navigation/native";
@@ -58,17 +66,24 @@ export default function ManualScreen() {
       />
 
       <View style={styles.btnGroup}>
-        <Button onPress={() => showMode("date")} title="Pick Date" />
-        <Button onPress={() => showMode("time")} title="Pick Time" />
+        <TouchableOpacity
+          style={styles.btnStyles}
+          onPress={() => showMode("date")}
+        >
+          <Text style={styles.btnText}>Pick Date</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btnStyles}
+          onPress={() => showMode("time")}
+        >
+          <Text style={styles.btnText}>Pick Time</Text>
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.preview}>Selected: {date.toLocaleString()}</Text>
-
-      <Button
-        title="Save & View Calendar"
-        onPress={handleSave}
-        color="#4CAF50"
-      />
+      <TouchableOpacity onPress={handleSave} style={styles.saveButtonStyles}>
+        <Text style={styles.btnText}>Save Event</Text>
+      </TouchableOpacity>
 
       {showPicker && (
         <DateTimePicker
@@ -84,7 +99,12 @@ export default function ManualScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: "center" },
+  container: {
+    flex: 1,
+    padding: 20,
+    paddingTop: 60,
+    justifyContent: "flex-start",
+  },
   header: {
     fontSize: 24,
     fontWeight: "bold",
@@ -103,5 +123,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginBottom: 20,
   },
+  btnStyles: {
+    borderRadius: 20,
+    backgroundColor: "green",
+    width: 120,
+    height: 64,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  saveButtonStyles: {
+    borderRadius: 20,
+    backgroundColor: "#4CAF50",
+    // width: 120,
+    height: 64,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    fontSize: 20,
+    color: "white",
+  },
+
   preview: { textAlign: "center", marginBottom: 20, fontSize: 16 },
 });
